@@ -16,10 +16,12 @@ import importlib.util
 import sys
 
 # Load parameters from JSON
+#replace /dbfs/Users/sai.work0488@gmail.com/dim_contract_params.json with relative path 
 with open('/dbfs/Users/sai.work0488@gmail.com/dim_contract_params.json', 'r') as f:
     params = json.load(f)
 
 # Dynamically load queries.py module
+# replace '/dbfs/Users/sai.work0488@gmail.com/queries.py
 spec = importlib.util.spec_from_file_location('queries', '/dbfs/Users/sai.work0488@gmail.com/queries.py')
 queries = importlib.util.module_from_spec(spec)
 sys.modules['queries'] = queries
@@ -59,12 +61,14 @@ params['ps_Staging_StagingSchema'] = dbutils.widgets.get('ps_Staging_StagingSche
 # COMMAND ----------
 
 # DBTITLE 1,Drop target table (externalized)
+#before running this file ,please uncomment spark.sql and comment print statement
 #spark.sql(queries.DROP_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 print(queries.DROP_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 
 # COMMAND ----------
 
 # DBTITLE 1,Create target table (externalized and parameterized)
+#before running this file ,please uncomment spark.sql and comment print statement
 #spark.sql(queries.CREATE_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 print(queries.CREATE_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 
@@ -80,18 +84,21 @@ print(queries.CREATE_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 # COMMAND ----------
 
 # DBTITLE 1,Create src_dummy temp view (externalized)
+#before running this file ,please uncomment spark.sql and comment print statement
 #spark.sql(queries.CREATE_SRC_DUMMY_VIEW)
 print(queries.CREATE_SRC_DUMMY_VIEW)
 
 # COMMAND ----------
 
 # DBTITLE 1,Create cp_Trash temp view (externalized)
+#before running this file ,please uncomment spark.sql and comment print statement
 #spark.sql(queries.CREATE_CP_TRASH_VIEW)
 print(queries.CREATE_CP_TRASH_VIEW)
 
 # COMMAND ----------
 
 # DBTITLE 1,Select final dim_resolution_contract_stg (externalized)
+#before running this file ,please uncomment spark.sql and comment print statement
 df_result = spark.sql(queries.SELECT_DIM_RESOLUTION_CONTRACT_STG.format(**params))
 display(df_result)
 
